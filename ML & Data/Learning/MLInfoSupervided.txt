@@ -1,0 +1,63 @@
+
+Modele Liniowe
+    Należy pamiętać, aby wcześniej dane zeskalować, np StandardScalerem()
+
+    Regresja
+        
+        LinearRegression() 
+            Użycie: LinearRegression() może być odpowiedni, gdy mamy mało cech lub gdy nie obawiamy się nadmiernego dopasowania.
+        
+        Ridge() [alpha, solver] , korzysta z regularyzacji L2  || ridgecv = RidgeCV(alphas=[0.1,1.0,10.0],cv = 5), best_alpha = ridgecv.alpha_
+            Ridge() jest preferowany w sytuacjach, gdy mamy dużo cech lub istnieje ryzyko overfittingu.
+        
+        Lasso() [alpha], korzysta z regularyzacji L1 || LassoCV(alphas=[0.1,1.0,10.0])
+            Selekcja cech: Lasso jest szczególnie przydatne, gdy mamy dużą liczbę cech, ale podejrzewamy, że tylko kilka z nich jest istotnych.
+            Dzięki regularyzacji L1 model Lasso automatycznie wybiera istotne cechy, redukując liczbę niepotrzebnych zmiennych.
+            Overfitting: Podobnie jak Ridge, Lasso pomaga w zapobieganiu nadmiernemu dopasowaniu, ale dodatkowo może uprościć model przez eliminację mniej istotnych cech.
+        
+        MultiTaskLasso() [alpha], gdy jest kilka zmiennych wyjściowych
+            Predykcja wielu zależnych zmiennych: Gdy chcemy jednocześnie przewidywać wiele związanych ze sobą zmiennych wyjściowych. 
+            Na przykład w medycynie można jednocześnie przewidywać różne wyniki zdrowotne pacjentów na podstawie tych samych danych wejściowych.
+            Selekcja cech: Model jest przydatny, gdy potrzebujemy przeprowadzić selekcję cech w kontekście wielozadaniowym, czyli wybrać taki zbiór cech,
+            który będzie najistotniejszy dla wszystkich zmiennych wyjściowych jednocześnie.
+            Redukcja wymiarowości: Dzięki sparsowości narzucanej przez regularyzację L1, model automatycznie redukuje liczbę cech, 
+            co może prowadzić do uproszczenia modelu i lepszej interpretowalności.
+
+        ElasticNet() [l1_ratio = [0;1] (gdy jest równe 0, to jest wtedy L2, gdy jest równe 1 to L1),alpha]jest połączeniem regularyzacji L1 i L2. 
+            ElasticNet to elastyczne narzędzie, które łączy zalety Lasso i Ridge, co sprawia, że jest szczególnie skuteczne w sytuacjach,
+            gdy mamy do czynienia z dużą liczbą cech, a także gdy te cechy są skorelowane.
+        Jest jeszcze ElasticNetCV(), MultiTaskElasticNet() i MultiTaskElasticNetCV()
+
+        Lars() (Least Angle Regression)
+            Selekcja cech: Lars jest użyteczny, gdy liczba cech jest duża, a cechy są skorelowane. 
+            Pomaga w wyborze istotnych cech oraz w estymacji współczynników regresji.
+            Modelowanie: Dzięki efektywności algorytmu, Lars jest odpowiedni do modelowania w dużych zbiorach danych i w problemach, 
+            gdzie liczba cech jest większa niż liczba obserwacji.
+            Lars można łatwo rozszerzyć do wersji z regularyzacją L1 (Lasso) i L2 (Ridge), nazywanej LarsLasso i LarsRidge.
+
+        OrthogonalMatchingPursuit()
+            OMP to algorytm do rozwiązywania problemów regresji, który działa w sposób iteracyjny.
+            Polega na wyborze cechy (lub grupy cech), która najlepiej dopasowuje się do reszt w każdej iteracji, a następnie aktualizowaniu współczynników regresji.
+            Jest stosowany do problemów, gdzie liczba cech jest znacznie większa niż liczba próbek, 
+            i jest skuteczny w tworzeniu rzadkich rozwiązań, gdzie wiele współczynników jest zerowanych.
+            Jest również stosowany do rekonstrukcji zaszumionych danych
+    
+    Klasyfikacja
+    
+        LogisticRegression()
+            Polega na szacowaniu prawdopodobieństwa przynależności elementu do danej klasy oraz przypisanie jej, 
+            uwzględniając wartość progową. 
+            Zastosowanie: Podstawowy model klasyfikacji.
+            Zalety: Prosty i szybki w implementacji.
+            Wady: Może być podatny na overfitting przy dużej liczbie cech.
+
+        RidgeClassifier() lub LogisticRegression(penalty='l2') || clf = RidgeClassifierCV(alphas=[0.1,1.0,10.0])
+            Zastosowanie: Gdy chcemy kontrolować wielkość współczynników i zapobiegać overfittingowi.
+            Zalety: Stabilizuje model, szczególnie przy dużej liczbie cech.
+            Wady: Nie prowadzi do selekcji cech (wszystkie cechy są zachowane).
+
+        LogisticRegression(penalty='l1') 
+            Zastosowanie: Gdy podejrzewamy, że tylko niektóre cechy są istotne.
+            Zalety: Automatyczna selekcja cech, co prowadzi do rzadszych i bardziej interpretable modeli.
+            Wady: Może nie działać dobrze, gdy cechy są silnie skorelowane.
+
