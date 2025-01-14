@@ -1,2 +1,1 @@
-# Learning
-Nieuporządkowany folder stworzony podczas nauki eksploracji danych oraz algorytmów ML
+# Learning data exploration and ML algorithms
